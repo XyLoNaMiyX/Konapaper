@@ -1,0 +1,58 @@
+﻿<Window x:Class="Konapaper.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Konapaper" Height="420" Width="670" WindowStyle="None" 
+        AllowsTransparency="True" ResizeMode="CanResizeWithGrip" Background="{x:Null}" Loaded="MainWindow_Loaded">
+
+    <Border Margin="4" MouseDown="titleMouseDown" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+        <Border.Effect>
+            <DropShadowEffect ShadowDepth="0" BlurRadius="4" Color="#888888"/>
+        </Border.Effect>
+
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="54" />
+                <RowDefinition Height="*" />
+                <RowDefinition Height="24" />
+            </Grid.RowDefinitions>
+
+            <Grid Grid.Row="0" Background="{StaticResource TitleBackground}">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="20*" />
+                    <ColumnDefinition Width="60*" />
+                    <ColumnDefinition Width="20*" />
+                </Grid.ColumnDefinitions>
+
+                <StackPanel Grid.Column="0" VerticalAlignment="Center" Margin="8">
+                    <TextBlock Text="Konapaper" Foreground="{StaticResource TitleForeground}" VerticalAlignment="Center" FontSize="14"/>
+                    <TextBlock Foreground="{StaticResource TitleForeground}" Text="Change settings" FontSize="11" VerticalAlignment="Center" TextDecorations="Underline" MouseDown="settingsMouseDown" />
+                </StackPanel>
+
+                <Border Grid.Column="1" Margin="4" CornerRadius="2" VerticalAlignment="Center" Height="32" Background="{StaticResource TitleForegroundEm}">
+                    <TextBox Style="{StaticResource SearchTextBoxStyle}" Tag="Enter tags separated by comas: tag1, tag2, ..." />
+                </Border>
+                <StackPanel Grid.Column="2" VerticalAlignment="Center" Margin="8">
+                    <TextBlock Foreground="{StaticResource TitleForeground}" Text="Exit application" FontSize="11" TextAlignment="Right" TextDecorations="Underline" MouseDown="exitMouseDown" />
+                    <TextBlock Foreground="{StaticResource TitleForeground}" Text="Minimize to tray" FontSize="11" TextAlignment="Right" TextDecorations="Underline" MouseDown="minimizeMouseDown" />
+                </StackPanel>
+            </Grid>
+
+            <ScrollViewer x:Name="imagesScroller" Grid.Row="1" Background="{StaticResource ContentBackground}" Template="{StaticResource ScrollViewerTemplate}" Padding="0,0,8,0" ScrollChanged="scrollChanged">
+                <WrapPanel x:Name="images">
+                </WrapPanel>
+            </ScrollViewer>
+
+            <!-- status bar -->
+            <Grid Grid.Row="2" Background="{StaticResource TitleBackground}">
+                <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+                    <TextBlock Text="Page" Foreground="{StaticResource TitleForeground}" Margin="6,0,6,0" />
+                    <TextBlock x:Name="currentPage" Foreground="{StaticResource TitleForeground}" />
+                    <TextBlock Text="/" Foreground="{StaticResource TitleForeground}" />
+                    <TextBlock x:Name="totalPages" Foreground="{StaticResource TitleForeground}" />
+                </StackPanel>
+            </Grid>
+        </Grid>
+    </Border>
+</Window>

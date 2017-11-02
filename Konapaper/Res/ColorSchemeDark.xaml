@@ -1,0 +1,22 @@
+﻿<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<ResourceDictionary xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:system="clr-namespace:System;assembly=mscorlib" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
+    <SolidColorBrush x:Key="TitleBackground" Color="#040404" />
+    <SolidColorBrush x:Key="TitleForeground" Color="#D8D8D8" />
+    <SolidColorBrush x:Key="TitleForegroundEm" Color="#1A1A1A" />
+
+    <SolidColorBrush x:Key="ContentBackground" Color="#101010" />
+    <SolidColorBrush x:Key="ContentForeground" Color="#FFFFFF" />
+    <SolidColorBrush x:Key="ContentForegroundEm" Color="#606060" />
+
+    <Color x:Key="SearchBackground" A="#FF" R="#10" G="#10" B="#10" />
+    <Color x:Key="SearchForeground" A="#FF"  R="#B0" G="#B0" B="#B0" />
+
+    <Color x:Key="SearchFocusedBackground" A="#FF" R="#E8" G="#E8" B="#E8" />
+    <Color x:Key="SearchFocusedForeground" A="#FF" R="#08" G="#08" B="#08" />
+
+    <SolidColorBrush x:Key="ScrollBarTrackColorBrush" Color="#18A7A7A7" />
+    <Color x:Key="ScrollBarTrackColor" A="#18" R="#A7" G="#A7" B="#A7" />
+    <Color x:Key="ScrollBarTrackHoverColor" A="#38" R="#A7" G="#A7" B="#A7" />
+
+    <SolidColorBrush x:Key="ScrollBarThumbColor" Color="#FFF4F4F4" />
+</ResourceDictionary>

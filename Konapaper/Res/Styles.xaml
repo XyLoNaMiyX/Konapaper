@@ -1,0 +1,260 @@
+﻿<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<ResourceDictionary xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:system="clr-namespace:System;assembly=mscorlib" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
+    
+    <!--                   Buttons                   -->
+    <Style x:Key="NotificationButton" TargetType="Button">
+        <Setter Property="OverridesDefaultStyle" Value="True"/>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="Button">
+                    <Border Name="Border" Background="#222222" Margin="4" CornerRadius="1">
+                        <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center" />
+                    </Border>
+                    <ControlTemplate.Triggers>
+                        <EventTrigger RoutedEvent="MouseEnter">
+                            <BeginStoryboard>
+                                <Storyboard>
+                                    <ColorAnimation From="#222222" To="#333333" Duration="0:0:0.2" Storyboard.TargetName="Border" Storyboard.TargetProperty="Background.Color" />
+                                </Storyboard>
+                            </BeginStoryboard>
+                        </EventTrigger>
+                        <EventTrigger RoutedEvent="MouseLeave">
+                            <BeginStoryboard>
+                                <Storyboard>
+                                    <ColorAnimation From="#333333" To="#222222" Duration="0:0:0.2" Storyboard.TargetName="Border" Storyboard.TargetProperty="Background.Color" />
+                                </Storyboard>
+                            </BeginStoryboard>
+                        </EventTrigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+
+    <!--               Search text box               -->
+    <!-- UNCOMMENT THESE ONLY IF NOT DEFINED ANYWHERE ELSE
+    <Color x:Key="SearchBackground" A="#FF" R="#10" G="#10" B="#10" />
+    <Color x:Key="SearchForeground" A="#FF"  R="#B0" G="#B0" B="#B0" />
+
+    <Color x:Key="SearchFocusedBackground" A="#FF" R="#E8" G="#E8" B="#E8" />
+    <Color x:Key="SearchFocusedForeground" A="#FF" R="#08" G="#08" B="#08" /> -->
+    <Style TargetType="TextBox" x:Key="SearchTextBoxStyle">
+        <Setter Property="FontSize" Value="14" />
+        <!-- Placeholder, usage: Tag="placeholder..." -->
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type TextBox}">
+                    <Grid>
+                        <TextBox Padding="4" VerticalContentAlignment="Center" BorderThickness="0" Background="Transparent" Text="{Binding Path=Text, RelativeSource={RelativeSource TemplatedParent}, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" x:Name="textSource" Panel.ZIndex="2">
+                            <!-- Pretty animation -->
+                            <TextBox.Triggers>
+                                <EventTrigger RoutedEvent="GotFocus">
+                                    <BeginStoryboard>
+                                        <Storyboard>
+                                            <ColorAnimation From="{StaticResource SearchBackground}" To="{StaticResource SearchFocusedBackground}" Duration="0:0:0.15" Storyboard.TargetProperty="Background.Color"/>
+                                            <ColorAnimation From="{StaticResource SearchForeground}" To="{StaticResource SearchFocusedForeground}" Duration="0:0:0.15" Storyboard.TargetProperty="Foreground.Color"/>
+                                        </Storyboard>
+                                    </BeginStoryboard>
+                                </EventTrigger>
+                                <EventTrigger RoutedEvent="LostFocus">
+                                    <BeginStoryboard>
+                                        <Storyboard>
+                                            <ColorAnimation From="{StaticResource SearchFocusedBackground}" To="{StaticResource SearchBackground}" Duration="0:0:0.15" Storyboard.TargetProperty="Background.Color"/>
+                                            <ColorAnimation From="{StaticResource SearchFocusedForeground}" To="{StaticResource SearchForeground}" Duration="0:0:0.15" Storyboard.TargetProperty="Foreground.Color"/>
+                                        </Storyboard>
+                                    </BeginStoryboard>
+                                </EventTrigger>
+                            </TextBox.Triggers>
+                        </TextBox>
+                        <TextBox Padding="4" VerticalContentAlignment="Center" BorderThickness="0" Background="Transparent" Text="{TemplateBinding Tag}" Panel.ZIndex="1">
+                            <TextBox.Style>
+                                <Style TargetType="{x:Type TextBox}">
+                                    <Setter Property="Opacity" Value="0"/>
+                                    <Style.Triggers>
+                                        <DataTrigger Binding="{Binding Path=Text, Source={x:Reference textSource}}" Value="">
+                                            <Setter Property="Opacity" Value="0.5" />
+                                        </DataTrigger>
+                                    </Style.Triggers>
+                                </Style>
+                            </TextBox.Style>
+                        </TextBox>
+                    </Grid>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <!--               Scroll bar              -->
+    <system:Double x:Key="ScrollBarTrackSize">8</system:Double>
+    <system:Double x:Key="ScrollBarThumbSize">6</system:Double>
+    <GridLength x:Key="ScrollBarThumbRadius">3</GridLength>
+
+    <!-- UNCOMMENT THESE ONLY IF NOT DEFINED ANYWHERE ELSE
+    <SolidColorBrush x:Key="ScrollBarTrackColorBrush" Color="#18A7A7A7" />
+    <Color x:Key="ScrollBarTrackColor" A="#18" R="#A7" G="#A7" B="#A7" />
+    <Color x:Key="ScrollBarTrackHoverColor" A="#38" R="#A7" G="#A7" B="#A7" /> -->
+
+    <SolidColorBrush x:Key="ScrollBarThumbColor" Color="#FFF4F4F4" />
+
+    <Duration x:Key="ScrollBarAnimatonDuration">0:0:0.2</Duration>
+
+    <ControlTemplate x:Key="ScrollViewerTemplate" TargetType="{x:Type ScrollViewer}">
+        <Grid x:Name="Grid" Background="{TemplateBinding Background}">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition />
+                <ColumnDefinition Width="Auto"/>
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition />
+                <RowDefinition Height="Auto"/>
+            </Grid.RowDefinitions>
+            <Rectangle x:Name="Corner" Grid.Column="1" Fill="{DynamicResource {x:Static SystemColors.ControlBrushKey}}" Grid.Row="1"/>
+            <ScrollContentPresenter x:Name="PART_ScrollContentPresenter" CanContentScroll="{TemplateBinding CanContentScroll}" CanHorizontallyScroll="False" CanVerticallyScroll="False" ContentTemplate="{TemplateBinding ContentTemplate}" Content="{TemplateBinding Content}" Margin="{TemplateBinding Padding}" />
+            <ScrollBar x:Name="PART_VerticalScrollBar" AutomationProperties.AutomationId="VerticalScrollBar" Cursor="Arrow" Grid.Column="1" Maximum="{TemplateBinding ScrollableHeight}" Minimum="0" Grid.Row="0" Visibility="{TemplateBinding ComputedVerticalScrollBarVisibility}" Value="{Binding VerticalOffset, Mode=OneWay, RelativeSource={RelativeSource TemplatedParent}}" ViewportSize="{TemplateBinding ViewportHeight}" />
+            <ScrollBar x:Name="PART_HorizontalScrollBar" AutomationProperties.AutomationId="HorizontalScrollBar" Cursor="Arrow" Grid.Column="0" Maximum="{TemplateBinding ScrollableWidth}" Minimum="0" Orientation="Horizontal" Grid.Row="1" Visibility="{TemplateBinding ComputedHorizontalScrollBarVisibility}" Value="{Binding HorizontalOffset, Mode=OneWay, RelativeSource={RelativeSource TemplatedParent}}" ViewportSize="{TemplateBinding ViewportWidth}" />
+        </Grid>
+    </ControlTemplate>
+
+    <Style x:Key="ScrollBarPageButton" TargetType="{x:Type RepeatButton}">
+        <Setter Property="OverridesDefaultStyle" Value="true"/>
+        <Setter Property="Background" Value="Transparent"/>
+        <Setter Property="Focusable" Value="false"/>
+        <Setter Property="IsTabStop" Value="false"/>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type RepeatButton}">
+                    <Rectangle Fill="{TemplateBinding Background}" Height="{TemplateBinding Height}" Width="{TemplateBinding Width}"/>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <Style x:Key="HorizontalThumb" TargetType="{x:Type Thumb}">
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type Thumb}">
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="{StaticResource ScrollBarThumbRadius}" />
+                            <ColumnDefinition Width="{StaticResource ScrollBarThumbRadius}" />
+                            <ColumnDefinition />
+                            <ColumnDefinition Width="{StaticResource ScrollBarThumbRadius}" />
+                            <ColumnDefinition Width="{StaticResource ScrollBarThumbRadius}" />
+                        </Grid.ColumnDefinitions>
+                        <Ellipse Grid.Column="0" Grid.ColumnSpan="2" Fill="{StaticResource ScrollBarThumbColor}" />
+                        <Rectangle Grid.Column="1" Grid.ColumnSpan="3" Fill="{StaticResource ScrollBarThumbColor}" />
+                        <Ellipse Grid.Column="3" Grid.ColumnSpan="2" Fill="{StaticResource ScrollBarThumbColor}" />
+                    </Grid>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <Style x:Key="VerticalThumb" TargetType="{x:Type Thumb}">
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type Thumb}">
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="{StaticResource ScrollBarThumbRadius}" />
+                            <RowDefinition Height="{StaticResource ScrollBarThumbRadius}" />
+                            <RowDefinition />
+                            <RowDefinition Height="{StaticResource ScrollBarThumbRadius}" />
+                            <RowDefinition Height="{StaticResource ScrollBarThumbRadius}" />
+                        </Grid.RowDefinitions>
+                        <Ellipse Grid.Row="0" Grid.RowSpan="2" Fill="{StaticResource ScrollBarThumbColor}" />
+                        <Rectangle Grid.Row="1" Grid.RowSpan="3" Fill="{StaticResource ScrollBarThumbColor}" />
+                        <Ellipse Grid.Row="3" Grid.RowSpan="2" Fill="{StaticResource ScrollBarThumbColor}" />
+                    </Grid>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <Style TargetType="{x:Type ScrollBar}">
+        <Setter Property="Stylus.IsPressAndHoldEnabled" Value="false"/>
+        <Setter Property="Stylus.IsFlicksEnabled" Value="false"/>
+        <Setter Property="Foreground" Value="{DynamicResource {x:Static SystemColors.ControlTextBrushKey}}"/>
+        <Setter Property="Width" Value="{StaticResource ScrollBarTrackSize}"/>
+        <Setter Property="MinWidth" Value="{StaticResource ScrollBarTrackSize}"/>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type ScrollBar}">
+                    <Grid x:Name="Bg" SnapsToDevicePixels="true" Background="{StaticResource ScrollBarTrackColorBrush}">
+                        <Grid.Triggers>
+                            <EventTrigger RoutedEvent="MouseEnter">
+                                <BeginStoryboard>
+                                    <Storyboard>
+                                        <ColorAnimation From="{StaticResource ScrollBarTrackColor}" To="{StaticResource ScrollBarTrackHoverColor}" Duration="{StaticResource ScrollBarAnimatonDuration}" Storyboard.TargetProperty="Background.Color"/>
+                                    </Storyboard>
+                                </BeginStoryboard>
+                            </EventTrigger>
+                            <EventTrigger RoutedEvent="MouseLeave">
+                                <BeginStoryboard>
+                                    <Storyboard>
+                                        <ColorAnimation From="{StaticResource ScrollBarTrackHoverColor}" To="{StaticResource ScrollBarTrackColor}" Duration="{StaticResource ScrollBarAnimatonDuration}" Storyboard.TargetProperty="Background.Color"/>
+                                    </Storyboard>
+                                </BeginStoryboard>
+                            </EventTrigger>
+                        </Grid.Triggers>
+                        <Track x:Name="PART_Track" IsDirectionReversed="true" IsEnabled="{TemplateBinding IsMouseOver}" Grid.Row="1">
+                            <Track.DecreaseRepeatButton>
+                                <RepeatButton Command="{x:Static ScrollBar.PageUpCommand}" Style="{StaticResource ScrollBarPageButton}"/>
+                            </Track.DecreaseRepeatButton>
+                            <Track.IncreaseRepeatButton>
+                                <RepeatButton Command="{x:Static ScrollBar.PageDownCommand}" Style="{StaticResource ScrollBarPageButton}"/>
+                            </Track.IncreaseRepeatButton>
+                            <Track.Thumb>
+                                <Thumb Style="{DynamicResource VerticalThumb}" Width="{StaticResource ScrollBarThumbSize}"/>
+                            </Track.Thumb>
+                        </Track>
+                    </Grid>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+        <Style.Triggers>
+            <Trigger Property="Orientation" Value="Horizontal">
+                <Setter Property="Width" Value="Auto"/>
+                <Setter Property="MinWidth" Value="0"/>
+                <Setter Property="Height" Value="{StaticResource ScrollBarTrackSize}"/>
+                <Setter Property="MinHeight" Value="{StaticResource ScrollBarTrackSize}"/>
+                <Setter Property="Template">
+                    <Setter.Value>
+                        <ControlTemplate TargetType="{x:Type ScrollBar}">
+                            <Grid x:Name="Bg" SnapsToDevicePixels="true" Background="{StaticResource ScrollBarTrackColorBrush}">
+                                <Grid.Triggers>
+                                    <EventTrigger RoutedEvent="MouseEnter">
+                                        <BeginStoryboard>
+                                            <Storyboard>
+                                                <ColorAnimation From="{StaticResource ScrollBarTrackColor}" To="{StaticResource ScrollBarTrackHoverColor}" Duration="{StaticResource ScrollBarAnimatonDuration}" Storyboard.TargetProperty="Background.Color"/>
+                                            </Storyboard>
+                                        </BeginStoryboard>
+                                    </EventTrigger>
+                                    <EventTrigger RoutedEvent="MouseLeave">
+                                        <BeginStoryboard>
+                                            <Storyboard>
+                                                <ColorAnimation From="{StaticResource ScrollBarTrackHoverColor}" To="{StaticResource ScrollBarTrackColor}" Duration="{StaticResource ScrollBarAnimatonDuration}" Storyboard.TargetProperty="Background.Color"/>
+                                            </Storyboard>
+                                        </BeginStoryboard>
+                                    </EventTrigger>
+                                </Grid.Triggers>
+                                <Track x:Name="PART_Track" Grid.Column="1" IsEnabled="{TemplateBinding IsMouseOver}">
+                                    <Track.DecreaseRepeatButton>
+                                        <RepeatButton Command="{x:Static ScrollBar.PageLeftCommand}" Style="{StaticResource ScrollBarPageButton}"/>
+                                    </Track.DecreaseRepeatButton>
+                                    <Track.IncreaseRepeatButton>
+                                        <RepeatButton Command="{x:Static ScrollBar.PageRightCommand}" Style="{StaticResource ScrollBarPageButton}"/>
+                                    </Track.IncreaseRepeatButton>
+                                    <Track.Thumb>
+                                        <Thumb Style="{DynamicResource HorizontalThumb}" Height="{StaticResource ScrollBarThumbSize}"/>
+                                    </Track.Thumb>
+                                </Track>
+                            </Grid>
+                        </ControlTemplate>
+                    </Setter.Value>
+                </Setter>
+            </Trigger>
+        </Style.Triggers>
+    </Style>
+</ResourceDictionary>

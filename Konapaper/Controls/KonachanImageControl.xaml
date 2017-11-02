@@ -1,0 +1,47 @@
+﻿<UserControl x:Class="Konapaper.KonachanImageControl"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:Konapaper"
+             MaxWidth="320" Loaded="loaded">
+    <Grid Margin="8">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+        <Border BorderBrush="{StaticResource ContentForegroundEm}" BorderThickness="2" CornerRadius="3">
+            <Image x:Name="image" Grid.Row="0">
+                <Image.ContextMenu>
+                    <ContextMenu x:Name="contextMenu">
+                        <ContextMenu.Template>
+                            <ControlTemplate>
+                                <Grid>
+                                    <Border CornerRadius="3" Background="White" BorderBrush="White" Padding="0,8,0,8">
+                                        <StackPanel>
+                                            <Button Style="{StaticResource ContextMenuTheme}" Content="Set wallpaper" Click="setWallpaperClick" />
+                                            <Button Style="{StaticResource ContextMenuTheme}" Content="Download" Click="downloadClick" />
+                                            <Button Style="{StaticResource ContextMenuTheme}" Content="Download to..." Click="downloadToClick" />
+                                            <Button Style="{StaticResource ContextMenuTheme}" Content="View in Konachan" Click="viewInKonachanClick" />
+                                        </StackPanel>
+                                    </Border>
+                                </Grid>
+                            </ControlTemplate>
+                        </ContextMenu.Template>
+                    </ContextMenu>
+                </Image.ContextMenu>
+            </Image>
+        </Border>
+        <TextBlock Grid.Row="1" Foreground="{StaticResource ContentForeground}" x:Name="title" Text="Loading..." Margin="0,8,0,0" />
+        <Grid Grid.Row="2">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="*" />
+            </Grid.ColumnDefinitions>
+
+            <TextBlock Grid.Column="0" x:Name="id" Foreground="{StaticResource ContentForegroundEm}" />
+            <TextBlock Grid.Column="1" x:Name="tagCount" TextAlignment="Right" Foreground="{StaticResource ContentForegroundEm}" />
+        </Grid>
+    </Grid>
+</UserControl>
